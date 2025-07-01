@@ -44,10 +44,9 @@ namespace PedidoStore.Infrastructure.Data.Repositories
             {
                 if (await DbContext.OrderItems.AnyAsync(x => x.Id == orderItem.Id))
                 {
-                    dbContext.Entry(orderItem).State = EntityState.Detached;
                     DbContext.Update(orderItem);
-                    await DbContext.SaveChangesAsync();
                 }
+                await DbContext.SaveChangesAsync();
             }
         }
 

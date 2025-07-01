@@ -34,7 +34,7 @@ namespace PedidoStore.PublicApi.Controllers.v1
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update([FromQuery]Guid id, [FromBody][Required] UpdateOrderCommand command) =>
+        public async Task<IActionResult> Update( [FromBody][Required] UpdateOrderCommand command) =>
             (await mediator.Send(command)).ToActionResult();
 
 

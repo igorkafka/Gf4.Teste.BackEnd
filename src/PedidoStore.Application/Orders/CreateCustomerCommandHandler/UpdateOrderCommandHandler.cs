@@ -22,7 +22,6 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
     public async Task<Result> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
             var customer = await repositoryCustomer.GetFirst();
-            request.CustomerId = customer.Id;
            
             // Validating the request.
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -37,10 +36,15 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
             order.Customer = customer;
         if (order == null)
             return Result.NotFound($"No customer found by Id: {request.Id}");
+
         foreach (var orderItemRequest in request.OrderItems)
         {
             Product product = await repositoryProduct.GetByIdAsync(orderItemRequest.ProductId);
-             OrderItem orderItem = new OrderItem(orderItemRequest.Id, order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
+            if (orderItemRequest.Id == null)
+            {
+                    orderItemRequest.Id = Guid.NewGuid();
+            }
+                OrderItem orderItem = new OrderItem((Guid)orderItemRequest.Id , order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
 
              var orderItemResult = order.AddItem(orderItem);
             if (!orderItemResult.IsSuccess)
