@@ -1,4 +1,4 @@
-﻿    
+﻿
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using FluentValidation;
@@ -26,9 +26,9 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
             CreateOrderCommand request,
             CancellationToken cancellationToken)
         {
-            var customer = await repositoryCustomer.GetFirst();   
+            var customer = await repositoryCustomer.GetFirst();
             // Validating the request.
-            
+
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
@@ -44,14 +44,10 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
             var order = OrderFactory.CreateWithoutResult(
                 customer.Id, request.Status);
 
-
-            foreach (var orderItemRequest in request.OrderItems)
+            (bool flowControl, Result<CreatedOrderResponse> value) = await BuildOrderItem(request, order);
+            if (!flowControl)
             {
-                Product product = await repositoryProduct.GetByIdAsync(orderItemRequest.ProductId);
-                OrderItem orderItem = new OrderItem(order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
-                var orderItemResult = order.AddItem(orderItem);
-                if (!orderItemResult.IsSuccess)
-                    return Result.Invalid(orderItemResult.ValidationErrors);
+                return value;
             }
 
             if (!ValidateOrder(order)) return Result.Invalid(new ValidationError("Invalid Order"));
@@ -65,6 +61,21 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
             return Result<CreatedOrderResponse>.Created(
                 new CreatedOrderResponse(order.Id), location: $"/api/customers/{order.Id}");
         }
+
+        private async Task<(bool flowControl, Result<CreatedOrderResponse> value)> BuildOrderItem(CreateOrderCommand request, Order order)
+        {
+            foreach (var orderItemRequest in request.OrderItems)
+            {
+                Product product = await repositoryProduct.GetByIdAsync(orderItemRequest.ProductId);
+                OrderItem orderItem = new OrderItem(order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
+                var orderItemResult = order.AddItem(orderItem);
+                if (!orderItemResult.IsSuccess)
+                    return (flowControl: false, value: Result.Invalid(orderItemResult.ValidationErrors));
+            }
+
+            return (flowControl: true, value: null);
+        }
+
         private bool ValidateOrder(Order order)
         {
             order.CompleteOrder();

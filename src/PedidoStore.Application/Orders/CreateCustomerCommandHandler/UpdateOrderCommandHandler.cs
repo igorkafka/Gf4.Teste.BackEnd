@@ -20,54 +20,64 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
     IProductWriteOnlyRepository repositoryProduct) : IRequestHandler<UpdateOrderCommand, Result>
 {
     public async Task<Result> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
-    {
+        {
             var customer = await repositoryCustomer.GetFirst();
-           
+
             // Validating the request.
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            // Returns the result with validation errors.
-            return Result.Invalid(validationResult.AsErrors());
-        }
-
-        // Getting the customer from the database.
-        var order = await repository.GetByIdAsync(request.Id);
-            order.Customer = customer;
-        if (order == null)
-            return Result.NotFound($"No customer found by Id: {request.Id}");
-
-        foreach (var orderItemRequest in request.OrderItems)
-        {
-            Product product = await repositoryProduct.GetByIdAsync(orderItemRequest.ProductId);
-            if (orderItemRequest.Id == null)
+            if (!validationResult.IsValid)
             {
-                    orderItemRequest.Id = Guid.NewGuid();
+                // Returns the result with validation errors.
+                return Result.Invalid(validationResult.AsErrors());
             }
-                OrderItem orderItem = new OrderItem((Guid)orderItemRequest.Id , order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
 
-             var orderItemResult = order.AddItem(orderItem);
-            if (!orderItemResult.IsSuccess)
-                return Result.Invalid(orderItemResult.ValidationErrors);
+            // Getting the customer from the database.
+            var order = await repository.GetByIdAsync(request.Id);
+            order.Customer = customer;
+            if (order == null)
+                return Result.NotFound($"No customer found by Id: {request.Id}");
+
+            (bool flowControl, Result value) = await BuildOrderItem(request, order);
+            if (!flowControl)
+            {
+                return value;
+            }
+            order.ChangeStatus(request.Status);
+
+            if (!ValidateOrder(order)) return Result.Invalid(new ValidationError("Invalid Order"));
+
+
+            repository.Update(order);
+
+            // Saving the changes to the database and firing events.
+            await unitOfWork.SaveChangesAsync();
+
+            await orderItemWriteOnlyRepository.RemoveRangeByOrder(order);
+            // Updating the entity in the repository.
+            await orderItemWriteOnlyRepository.UpdateByOrder(order);
+
+            return Result.SuccessWithMessage("Updated successfully!");
         }
-        order.ChangeStatus(request.Status);
 
-        if (!ValidateOrder(order)) return Result.Invalid(new ValidationError("Invalid Order"));
+        private async Task<(bool flowControl, Result value)> BuildOrderItem(UpdateOrderCommand request, Order order)
+        {
+            foreach (var orderItemRequest in request.OrderItems)
+            {
+                Product product = await repositoryProduct.GetByIdAsync(orderItemRequest.ProductId);
+                if (orderItemRequest.Id == null)
+                {
+                    orderItemRequest.Id = Guid.NewGuid();
+                }
+                OrderItem orderItem = new OrderItem((Guid)orderItemRequest.Id, order.Id, product.Id, orderItemRequest.UnitPrice, orderItemRequest.Quantity);
 
+                var orderItemResult = order.AddItem(orderItem);
+                if (!orderItemResult.IsSuccess)
+                    return (flowControl: false, value: Result.Invalid(orderItemResult.ValidationErrors));
+            }
 
-         repository.Update(order);
+            return (flowControl: true, value: null);
+        }
 
-        // Saving the changes to the database and firing events.
-        await unitOfWork.SaveChangesAsync();
-
-        await orderItemWriteOnlyRepository.RemoveRangeByOrder(order);
-        // Updating the entity in the repository.
-        await orderItemWriteOnlyRepository.UpdateByOrder(order);
-        
-        await unitOfWork.SaveChangesAsync();
-
-        return Result.SuccessWithMessage("Updated successfully!");
-    }
         private bool ValidateOrder(Order order)
         {
             order.ChangeTotalAmount();
