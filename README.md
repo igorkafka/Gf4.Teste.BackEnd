@@ -8,3 +8,5 @@ docker stop redis-dev
 docker rm redis-dev
 docker exec -it redis-dev redis-cli
 =======
+
+Depois disso é só configurar conexão do redis, mongodb e SQL Server no appsettings
