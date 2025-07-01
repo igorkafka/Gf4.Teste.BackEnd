@@ -8,7 +8,7 @@ namespace PedidoStore.Domain.Repositories
 {
     public interface IOrderItemWriteOnlyRepository : IWriteOnlyRepository<OrderItem, Guid>
     {
-        Task RemoveRange(Order order);
+        Task RemoveRangeByOrder(Order order);
         Task UpdateByOrder(Order order);
     }
 }

@@ -2,7 +2,6 @@
 using Ardalis.Result;
 using MediatR;
 using PedidoStore.Domain.Entities.OrderAggregate;
-using System.ComponentModel.DataAnnotations;
 
 namespace PedidoStore.Application.Orders.Commands
 {

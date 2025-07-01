@@ -34,11 +34,15 @@ namespace PedidoStore.Domain.Entities
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
         public int Quantity { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get;  set; }
 
         public void CalculateOrderAmount()
         {
             TotalPrice = UnitPrice * Quantity;
+        }
+        public void Delete()
+        {
+            IsDeleted = true;
         }
     }
 }

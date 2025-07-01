@@ -60,7 +60,7 @@ namespace PedidoStore.Application.Orders.CreateCustomerCommandHandler
         // Saving the changes to the database and firing events.
         await unitOfWork.SaveChangesAsync();
 
-        await orderItemWriteOnlyRepository.RemoveRange(order);
+        await orderItemWriteOnlyRepository.RemoveRangeByOrder(order);
         // Updating the entity in the repository.
         await orderItemWriteOnlyRepository.UpdateByOrder(order);
         

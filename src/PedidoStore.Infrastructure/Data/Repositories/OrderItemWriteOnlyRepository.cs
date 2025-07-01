@@ -4,23 +4,17 @@ using PedidoStore.Domain.Entities;
 using PedidoStore.Domain.Entities.OrderAggregate;
 using PedidoStore.Domain.Repositories;
 using PedidoStore.Infrastructure.Data.Repositories.Common;
-using SharpCompress.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PedidoStore.Infrastructure.Data.Repositories
 {
     internal class OrderItemWriteOnlyRepository(WriteDbContext dbContext, IUnitOfWork unitOfWork)
     : BaseWriteOnlyRepository<OrderItem, Guid>(dbContext), IOrderItemWriteOnlyRepository
     {
-        public async Task RemoveRange(Order order)
+        public async Task RemoveRangeByOrder(Order order)
         {
             var existingItems = DbContext.OrderItems.AsNoTracking()
-        .Where(i => i.OrderId == order.Id)
-        .ToList();
+                            .Where(i => i.OrderId == order.Id)
+                            .ToList();
 
             var missingRows = existingItems
                 .Where(dbItem => !order.OrderItems.Any(inputItem => dbItem.Id == inputItem.Id))
@@ -28,13 +22,10 @@ namespace PedidoStore.Infrastructure.Data.Repositories
 
             foreach (var item in missingRows)
             {
-                item.IsDeleted = true;
+                item.Delete();
                 DbContext.OrderItems.Update(item);
             }
             await DbContext.SaveChangesAsync();
-
-       
-
         }
 
         public async Task UpdateByOrder(Order order)
