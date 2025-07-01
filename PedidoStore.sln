@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{63B40425-D4E1-449A-94BB-4A2E11596699}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{C532AD2B-C8BC-46A7-9802-90FC7D964055}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{9339A345-3753-430D-9BCD-F6490B642308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.Core", "src\PedidoStore.Core\PedidoStore.Core.csproj", "{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.Domain", "src\PedidoStore.Domain\PedidoStore.Domain.csproj", "{81DE0220-BFF6-4565-AB8C-103D74E51877}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.Infrastructure", "src\PedidoStore.Infrastructure\PedidoStore.Infrastructure.csproj", "{E139215F-F9B5-4651-925E-CC0A87E574D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.Query", "src\PedidoStore.Query\PedidoStore.Query.csproj", "{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.Application", "src\PedidoStore.Application\PedidoStore.Application.csproj", "{B89A1657-3A9E-4114-8970-B6A573FD3905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.PublicApi", "src\PedidoStore.PublicApi\PedidoStore.PublicApi.csproj", "{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoStore.UnitTests", "tests\PedidoStore.UnitTests\PedidoStore.UnitTests.csproj", "{D081D425-89B3-40D7-B8F7-7AC13B0BBA76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BDE7B4FE-0AA4-44C6-9E14-0A2104161185}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		docker-compose.overrride.yml = docker-compose.overrride.yml
+		docker-compose.txt = docker-compose.txt
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DE0220-BFF6-4565-AB8C-103D74E51877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DE0220-BFF6-4565-AB8C-103D74E51877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DE0220-BFF6-4565-AB8C-103D74E51877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DE0220-BFF6-4565-AB8C-103D74E51877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E139215F-F9B5-4651-925E-CC0A87E574D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E139215F-F9B5-4651-925E-CC0A87E574D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E139215F-F9B5-4651-925E-CC0A87E574D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E139215F-F9B5-4651-925E-CC0A87E574D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89A1657-3A9E-4114-8970-B6A573FD3905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89A1657-3A9E-4114-8970-B6A573FD3905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89A1657-3A9E-4114-8970-B6A573FD3905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89A1657-3A9E-4114-8970-B6A573FD3905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D081D425-89B3-40D7-B8F7-7AC13B0BBA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D081D425-89B3-40D7-B8F7-7AC13B0BBA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D081D425-89B3-40D7-B8F7-7AC13B0BBA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D081D425-89B3-40D7-B8F7-7AC13B0BBA76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C532AD2B-C8BC-46A7-9802-90FC7D964055} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{9339A345-3753-430D-9BCD-F6490B642308} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5A5B0F61-84A1-4A53-90FE-C1BE4214A14F} = {5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1}
+		{81DE0220-BFF6-4565-AB8C-103D74E51877} = {5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1}
+		{E139215F-F9B5-4651-925E-CC0A87E574D7} = {C532AD2B-C8BC-46A7-9802-90FC7D964055}
+		{4F96D20D-D1FC-4C2B-AF6C-DB59FA606DC7} = {5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1}
+		{B89A1657-3A9E-4114-8970-B6A573FD3905} = {5DF61F29-3C6F-4D5A-B1CF-4A0DDCFC34C1}
+		{34C5AB49-5A3F-40A6-8D4F-D69B19A9C759} = {9339A345-3753-430D-9BCD-F6490B642308}
+		{D081D425-89B3-40D7-B8F7-7AC13B0BBA76} = {63B40425-D4E1-449A-94BB-4A2E11596699}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BD00CE6-0B30-44CF-9EA4-2A5EB1E78DCE}
+	EndGlobalSection
+EndGlobal

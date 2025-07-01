@@ -1,0 +1,6 @@
+@PedidoStore.PublicApi_HostAddress = http://localhost:5087
+
+GET {{PedidoStore.PublicApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
